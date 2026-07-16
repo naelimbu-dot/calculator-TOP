@@ -29,4 +29,13 @@ function operate(num1, operator, num2) {
 let number1 = 0
 let operator = 0
 let number2 = 0
+let screenText = 53
 
+const btns = document.querySelectorAll(".button")
+const display = document.querySelector(".screen")
+btns.forEach(btn => {
+btn.addEventListener("click", function() {
+    console.log("clicked")
+    display.textContent = 1
+})
+})
