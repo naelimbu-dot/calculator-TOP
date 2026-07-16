@@ -1,0 +1,64 @@
+.calculatorContainer {
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    justify-self: center;
+    width: 410px;
+    height: 835px;
+    background-color: lightgray;
+    border-radius: 20px;
+    border: 4px solid black;
+}
+
+.screen {
+    padding: 55px 150px;
+    background-color: lightcyan;
+    margin: 25px;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 25px;
+    display: flex;
+    border: 3px solid gray;
+    justify-content: center;
+
+}
+
+.buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: end;
+}
+
+.button {
+    border-radius: 6px;
+    padding: 45px;
+    background-color: lightblue;
+    margin: 5px;
+    border: 2px solid black;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    font-weight: bold;
+    font-size: 25px;
+    cursor: pointer;
+}
+
+#enter {
+    width: 200px;
+}
+
+#plus,
+#minus,
+#times,
+#divide,
+#delete,
+#clear,
+#enter {
+    font-size: 30px;
+    background-color: bisque;
+    font-weight: bolder;
+}
