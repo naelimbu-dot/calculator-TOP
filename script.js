@@ -67,9 +67,10 @@ function onButtonClick(event) {
 
     if (operators.includes(event.target.textContent) === true) {
         console.log("operator used")
-        if (waitingForSecond === true) {
+        if (waitingForSecond === true && event.target.textContent !== "=") {
             console.log("GO")
             number1 = operate(number1, operator, number2)
+            realScreenText = number1 + event.target.textContent
             number2 = ""
         } 
         else if (waitingForSecond === false) {
@@ -77,8 +78,11 @@ function onButtonClick(event) {
         } 
         if (event.target.textContent === "=" && operator === "=") {
             resetValues()
-        } else if (event.target.textContent === "=") {
-            realScreenText = operate(number1, operator, number2)
+        } 
+        if (event.target.textContent === "=") {
+            console.log(number1, operator, number2)
+            number1 = operate(number1, operator, number2)
+            realScreenText = number1
             number2 = ""
             operator = ""
             waitingForSecond = false
