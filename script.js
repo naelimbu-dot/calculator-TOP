@@ -26,66 +26,80 @@ function operate(num1, operator, num2) {
     }
 }
 
-let number1 = 0
-let operator = 0
-let number2 = 0
-let separator = 0
+let number1 = ""
+let operator = ""
+let number2 = ""
 let screenText = []
 let realScreenText = ""
 let waitingForSecond = false
 let operators = ["+","-","/","*","="]
 
-
 function resetValues() {
     screenText = []
     realScreenText = ""
-    number1 = 0
-    operator = 0
-    number2 = 0
-    let waitingForSecond = false
+    number1 = ""
+    operator = ""
+    number2 = ""
+    waitingForSecond = false
 }
 
 function onButtonClick(event) {
     realScreenText += event.target.textContent
-    if (event.target.textContent === "A/C" || screenText.length === 0 ) {
+    if (event.target.textContent === "A/C") {
         resetValues()
+        display.textContent = realScreenText
+        console.log(`number1: ${number1}`)
+        console.log(`number2: ${number2}`)
+        return
         }   
+
     if (operators.includes(event.target.textContent) === false) {
         console.log("digit used")
         if (waitingForSecond === false) {
+            console.log("digit added")
             number1 += event.target.textContent
-            } else {
-                number2 += event.target.textContent
-                }
+            } 
+        if (waitingForSecond === true) {
+            number2 += event.target.textContent
+            console.log("shouldm")
+            }
         }
-    if (operators.includes(event.target.textContent)) {
+
+    if (operators.includes(event.target.textContent) === true) {
         console.log("operator used")
-        }
-        if (waitingForSecond === false) {
-            waitingForSecond = true
-        } else {
+        if (waitingForSecond === true) {
+            console.log("GO")
             number1 = operate(number1, operator, number2)
-            number2 = 0
+            number2 = ""
         } 
-        if (event.target.textContent === "=") {
+        else if (waitingForSecond === false) {
+            waitingForSecond = true
+        } 
+        if (event.target.textContent === "=" && operator === "=") {
+            resetValues()
+        } else if (event.target.textContent === "=") {
             realScreenText = operate(number1, operator, number2)
+            number2 = ""
+            operator = ""
+            waitingForSecond = false
         }
         operator = event.target.textContent
+    }
 
     if (event.target.textContent === "DEL") {
-        realScreenText = realScreenText.split("")
-        realScreenText.splice(realScreenText.length-4, 4)
-        screenText = realScreenText
-        realScreenText = screenText.join("")
-        if (realScreenText === "DE") {
-            resetValues()
+        if (waitingForSecond === false) {
+            console.log("poo")
+            number1 = number1.slice(0, -4);
+            realScreenText = realScreenText.slice(0, -4);
+        } else {
+            number2 = number2.slice(0, -4);
+            realScreenText = realScreenText.slice(0, -4);
         }
-
+    }
     
     display.textContent = realScreenText
     console.log(`number1: ${number1}`)
     console.log(`number2: ${number2}`)
-}
 }
 
 const btns = document.querySelectorAll(".button")
