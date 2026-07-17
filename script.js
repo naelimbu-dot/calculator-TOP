@@ -26,65 +26,66 @@ function operate(num1, operator, num2) {
     }
 }
 
-let number1 = null
+let number1 = 0
 let operator = 0
-let number2 = null
+let number2 = 0
 let separator = 0
 let screenText = []
 let realScreenText = ""
+let waitingForSecond = false
 let operators = ["+","-","/","*","="]
 
 
 function resetValues() {
     screenText = []
     realScreenText = ""
-    number1 = null
+    number1 = 0
     operator = 0
-    number2 = null
+    number2 = 0
+    let waitingForSecond = false
 }
 
 function onButtonClick(event) {
-    screenText.push(event.target.textContent)
     realScreenText += event.target.textContent
     if (event.target.textContent === "A/C" || screenText.length === 0 ) {
         resetValues()
-    }   if (operators.includes(event.target.textContent)) {
-        console.log("operator used")
-        if (number1 === null) {
-            const lst1 = screenText.slice(0, screenText.length-1)
-            number1 = lst1.join("")
-            separator = screenText.length
-        
-        } else if (number1 !== null) {
-            const lst2 = screenText.slice(separator, screenText.length-1)
-            number2 = lst2.join("")
-            number1 = operate(number1, operator, number2)
-            screenText = [number1]
-            }
-        operator = screenText[screenText.length-1]
-        console.log(`operator: ${operator}`)
-        if (event.target.textContent === "=") {
-                screenText = [number1]
-                realScreenText = screenText.join("")
-                console.log(`Screen shows: ${realScreenText}`)
-                number1 = null
-                operator = 0
-                number2 = null
-            }
-        if (operators.includes(operator) !== true || operator === "=") {
-            operator = 0
+        }   
+    if (operators.includes(event.target.textContent) === false) {
+        console.log("digit used")
+        if (waitingForSecond === false) {
+            number1 += event.target.textContent
+            } else {
+                number2 += event.target.textContent
+                }
         }
+    if (operators.includes(event.target.textContent)) {
+        console.log("operator used")
+        }
+        if (waitingForSecond === false) {
+            waitingForSecond = true
+        } else {
+            number1 = operate(number1, operator, number2)
+            number2 = 0
+        } 
+        if (event.target.textContent === "=") {
+            realScreenText = operate(number1, operator, number2)
+        }
+        operator = event.target.textContent
 
-    } if (event.target.textContent === "DEL") {
+    if (event.target.textContent === "DEL") {
         realScreenText = realScreenText.split("")
         realScreenText.splice(realScreenText.length-4, 4)
         screenText = realScreenText
         realScreenText = screenText.join("")
-    }
+        if (realScreenText === "DE") {
+            resetValues()
+        }
+
+    
     display.textContent = realScreenText
     console.log(`number1: ${number1}`)
-    console.log(`Current code: ${screenText}`)
     console.log(`number2: ${number2}`)
+}
 }
 
 const btns = document.querySelectorAll(".button")
