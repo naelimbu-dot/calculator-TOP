@@ -11,6 +11,9 @@ function multiply(num1, num2) {
 }
 
 function divide(num1, num2) {
+    if (num2 === "0") {
+        return "who do you think you are"
+    }
     return Number(num1) / Number(num2)
 }
 
@@ -29,13 +32,12 @@ function operate(num1, operator, num2) {
 let number1 = ""
 let operator = ""
 let number2 = ""
-let screenText = []
 let realScreenText = ""
 let waitingForSecond = false
 let operators = ["+","-","/","*","="]
+let result = false
 
 function resetValues() {
-    screenText = []
     realScreenText = ""
     number1 = ""
     operator = ""
@@ -44,7 +46,13 @@ function resetValues() {
 }
 
 function onButtonClick(event) {
-    realScreenText += event.target.textContent
+    if (result === false) {
+        realScreenText += event.target.textContent
+    } else if (result === true) {
+        realScreenText = ""
+        realScreenText += event.target.textContent
+        result = false
+    }
     if (event.target.textContent === "A/C") {
         resetValues()
         display.textContent = realScreenText
@@ -77,15 +85,18 @@ function onButtonClick(event) {
             waitingForSecond = true
         } 
         if (event.target.textContent === "=" && operator === "=") {
+            console.log("ERROR")
             resetValues()
         } 
-        if (event.target.textContent === "=") {
+        else if (event.target.textContent === "=") {
             console.log(number1, operator, number2)
             number1 = operate(number1, operator, number2)
             realScreenText = number1
-            number2 = ""
+            number1 = ""
             operator = ""
+            number2 = ""
             waitingForSecond = false
+            result = true
         }
         operator = event.target.textContent
     }
@@ -104,6 +115,9 @@ function onButtonClick(event) {
     display.textContent = realScreenText
     console.log(`number1: ${number1}`)
     console.log(`number2: ${number2}`)
+    if (number1 === "who do you think you are") {
+        resetValues()
+    }
 }
 
 const btns = document.querySelectorAll(".button")
